@@ -155,4 +155,5 @@ if( $Initialize )
 }
 
 $context = New-WhiskeyContext -Environment 'Dev' -ConfigurationPath $configPath
+Add-WhiskeyApiKey -Context $context -ID 'AppVeyorProjectFeedApiKey' -Value $env:AppVeyorProjectFeedApiKey
 Invoke-WhiskeyBuild -Context $context @optionalArgs

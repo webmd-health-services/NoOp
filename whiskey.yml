@@ -3,11 +3,13 @@ Build:
 - Version:
     Path: NoOp\NoOp.psd1
     Prerelease:
-    - feature/*: alpha.$(WHISKEY_BUILD_NUMBER)
-    - develop: beta.$(WHISKEY_BUILD_NUMBER)
-    - prerelease: rc.$(WHISKEY_BUILD_NUMBER)
+    - feature/*: alpha$(WHISKEY_BUILD_NUMBER)
+    - develop: rc$(WHISKEY_BUILD_NUMBER)
 
-- Exec: appveyor UpdateBuild -Version "$(WHISKEY_SEMVER2)"
+- Exec: 
+      OnlyBy: BuildServer
+      Path: appveyor
+      Argument: [ UpdateBuild, -Version, $(WHISKEY_SEMVER2) ]
 
 # Dot-sourcing files is expensive. Move all functions into .psm1 file to improve import speed. Do this before testing
 # to ensure the module still works.
@@ -41,14 +43,16 @@ Build:
 - Pester4:
     Script: Tests\*.Tests.ps1
 
-# Build runs twice on some servers, so delete any ZIP file created by another build.
-- Delete:
-    Path: .output\*.zip
-
 - Zip:
-    ArchivePath: .output\NoOp.zip
+    ArchivePath: .output\NoOp-$(WHISKEY_SEMVER2).zip
     Path: 
     - NoOp
 
-- NuGetPack:
-    Path: NoOp.nuspec
+- PublishPowerShellModule:
+    RepositoryName: NoOp
+    RepositoryUri: $(WHISKEY_OUTPUT_DIRECTORY)
+    Path: NoOp
+    ApiKeyID: AppVeyorProjectFeedApiKey
+
+# - NuGetPack:
+#     Path: NoOp.nuspec

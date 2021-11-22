@@ -16,6 +16,9 @@ image:
 # - macOS-BigSur
 # - macOS-Mojave
 
+nuget:
+  project_feed: true
+
 artifacts:
 - path: .output/*.nupkg
   name: PowerShellGallery
@@ -27,4 +30,6 @@ build:
   verbosity: minimal
 
 build_script:
+- ps: nuget sources
 - ps: .\build.ps1
+
