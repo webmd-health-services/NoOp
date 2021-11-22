@@ -18,10 +18,10 @@
     RootModule = 'NoOp.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.0'
+    ModuleVersion = '1.0.0'
 
     # ID used to uniquely identify this module
-    GUID = ''
+    GUID = '7245db19-5bf0-43b4-88d9-dccfbf6fe946'
 
     # Author of this module
     Author = 'WebMD Health Services'
@@ -36,7 +36,7 @@
     Copyright = '(c) WebMD Health Services.'
 
     # Description of the functionality provided by this module
-    Description = ''
+    Description = 'A module that does no work that we can use in automated tests that interact with the PowerShell Gallery.'
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -116,8 +116,7 @@
             Prerelease = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = @'
-'@
+            ReleaseNotes = 'https://github.com/webmd-health-services/NoOp/blob/main/CHANGELOG.md'
         } # End of PSData hashtable
 
     } # End of PrivateData hashtable
