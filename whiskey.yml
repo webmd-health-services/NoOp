@@ -1,11 +1,13 @@
 
-PublishOn:
-- main
-- prerelease
-
 Build:
 - Version:
     Path: NoOp\NoOp.psd1
+    Prerelease:
+    - feature/*: alpha.$(WHISKEY_BUILD_NUMBER)
+    - develop: beta.$(WHISKEY_BUILD_NUMBER)
+    - prerelease: rc.$(WHISKEY_BUILD_NUMBER)
+
+- Exec: appveyor UpdateBuild -Version "$(WHISKEY_SEMVER2)"
 
 # Dot-sourcing files is expensive. Move all functions into .psm1 file to improve import speed. Do this before testing
 # to ensure the module still works.
@@ -24,6 +26,8 @@ Build:
     Path:
     - LICENSE
     - NOTICE
+    - README.md
+    - CHANGELOG.md
     DestinationDirectory: NoOp
 
 - PowerShell:
@@ -42,42 +46,9 @@ Build:
     Path: .output\*.zip
 
 - Zip:
-    ArchivePath: .output\NoOp.zip
+    ArchivePath: .output\NoOp.$(WHISKEY_SEMVER2).zip
     Path: 
     - NoOp
 
-Publish:
-
-- AppVeyorWaitForBuildJobs:
-    IfExists: env:PUBLISH
-    UnlessExists: env:APPVEYOR_PULL_REQUEST_NUMBER
-    ApiKeyID: AppVeyorBearerToken
-
-- PublishPowerShellModule:
-    IfExists: env:PUBLISH
-    UnlessExists: env:APPVEYOR_PULL_REQUEST_NUMBER
-    RepositoryName: PSGallery
-    RepositoryUri: https://powershellgallery.com/api/v2/
-    Path: NoOp
-    ApiKeyID: PowerShellGalleryApiKey
-
-- SetVariableFromPowerShellDataFile:
-    Path: NoOp\NoOp.psd1
-    Variables:
-        PrivateData:
-            PSData:
-                ReleaseNotes: RELEASE_NOTES
-
-- GitHubRelease:
-    IfExists: env:PUBLISH
-    UnlessExists: env:APPVEYOR_PULL_REQUEST_NUMBER
-    RepositoryName: webmd-health-services/NoOp
-    ApiKeyID: GitHubAccessToken
-    Tag: $(WHISKEY_SEMVER2_NO_BUILD_METADATA)
-    Commitish: $(WHISKEY_SCM_COMMIT_ID)
-    Name: $(WHISKEY_SEMVER2_NO_BUILD_METADATA)
-    Description: $(RELEASE_NOTES)
-    Assets:
-    - Path: .output\NoOp.zip
-      ContentType: application/zip
-      Name: NoOp-$(WHISKEY_SEMVER2_NO_BUILD_METADATA).zip
+- NuGetPack:
+    Path: NoOp.nuspec

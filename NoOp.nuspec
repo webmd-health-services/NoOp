@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NoOp</id>
+    <version>$version$</version>
+    <authors>WebMD Health Services</authors>
+    <owners>WebMD Health Services</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/webmd-health-services/NoOp</projectUrl>
+    <description>A module that does no work that we can use in automated tests that interact with the PowerShell Gallery.</description>
+    <releaseNotes>https://github.com/webmd-health-services/NoOp/blob/main/CHANGELOG.md</releaseNotes>
+    <copyright>Aaron Jensen and WebMD Health Services</copyright>
+    <tags>PSModule</tags>
+  </metadata>
+  <files>
+    <file src="NoOp\**\*" target="." />
+  </files>
+</package>
